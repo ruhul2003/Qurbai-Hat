@@ -38,7 +38,7 @@ export default function Featured() {
   }
 
   return (
-    <section className="w-full mt-12 bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-950 py-20">
+    <section className="w-full mt-12 bg-[#0a1f1a] py-20  ">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
