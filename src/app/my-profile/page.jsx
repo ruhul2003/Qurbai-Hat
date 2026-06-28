@@ -49,7 +49,7 @@ export default function MyProfilePage() {
               </div>
               <div className="pb-2">
                 <h1 className="text-xl font-bold text-white tracking-tight">{user?.name || 'Haat Member'}</h1>
-                <p className="text-xs text-emerald-100 font-medium">Verified Client Account</p>
+                <p className="text-xs mb-4 text-emerald-100 font-medium">Verified Client Account</p>
               </div>
             </div>
           </div>
