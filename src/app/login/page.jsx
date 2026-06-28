@@ -1,14 +1,39 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { authClient } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
+  const router = useRouter();
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login attempt:', formData);
-    // Add your login logic here
+    setLoading(true);
+    setError('');
+
+    try {
+      const { data, error: authError } = await authClient.signIn.email({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (authError) {
+        setError(authError.message || "Invalid email or password");
+        console.error(authError);
+      } else {
+        console.log("Login successful:", data);
+        router.push('/'); // Redirect to home after successful login
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -18,6 +43,12 @@ export default function Login() {
           <h1 className="text-4xl font-bold text-white">Welcome Back</h1>
           <p className="text-zinc-400 mt-3">Sign in to access your Qurbani account</p>
         </div>
+
+        {error && (
+          <div className="bg-red-500/10 border border-red-500 text-red-400 px-4 py-3 rounded-2xl mb-6 text-sm">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="bg-zinc-900/70 backdrop-blur-xl border border-zinc-700 rounded-3xl p-8 shadow-2xl">
           <div className="space-y-6">
@@ -47,9 +78,10 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-4 rounded-2xl transition-all duration-200"
+              disabled={loading}
+              className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-2xl transition-all duration-200 flex items-center justify-center"
             >
-              Sign In
+              {loading ? "Signing In..." : "Sign In"}
             </button>
           </div>
 
