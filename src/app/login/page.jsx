@@ -23,14 +23,14 @@ export default function Login() {
 
       if (authError) {
         setError(authError.message || "Invalid email or password");
-        console.error(authError);
       } else {
-        console.log("Login successful:", data);
-        router.push('/'); // Redirect to home after successful login
+        console.log("Login successful");
+        router.push('/');
+        router.refresh();
+        window.location.href = '/';
       }
     } catch (err) {
       setError("Something went wrong. Please try again.");
-      console.error(err);
     } finally {
       setLoading(false);
     }

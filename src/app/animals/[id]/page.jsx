@@ -136,7 +136,7 @@ export default function AnimalDetailPage() {
               onClick={() => alert(`Redirecting secure tracking configuration code logic loops for ${animal.name}`)}
               className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black uppercase text-xs tracking-widest rounded-xl transition-all shadow-lg active:scale-[0.99]"
             >
-              🔒 Request Instant Booking Token
+              Request Instant Booking Token
             </button>
             <p className="text-[11px] text-center text-zinc-500 mt-3">
               Booking requests secure the physical livestock holding slot for up to 24 hours.
