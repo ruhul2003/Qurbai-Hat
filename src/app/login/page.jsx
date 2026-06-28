@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';           // ← Add this import
 import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 
@@ -8,6 +9,7 @@ export default function Login() {
   const router = useRouter();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
@@ -16,7 +18,7 @@ export default function Login() {
     setError('');
 
     try {
-      const { data, error: authError } = await authClient.signIn.email({
+      const { error: authError } = await authClient.signIn.email({
         email: formData.email,
         password: formData.password,
       });
@@ -27,12 +29,28 @@ export default function Login() {
         console.log("Login successful");
         router.push('/');
         router.refresh();
-        window.location.href = '/';
       }
     } catch (err) {
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setGoogleLoading(true);
+    setError('');
+
+    try {
+      await authClient.signIn.social({
+        provider: 'google',
+        callbackURL: '/',
+      });
+    } catch (err) {
+      setError("Google sign in failed. Please try again.");
+      console.error(err);
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
@@ -84,16 +102,50 @@ export default function Login() {
               {loading ? "Signing In..." : "Sign In"}
             </button>
           </div>
-
-          <div className="mt-6 text-center">
-            <p className="text-zinc-400">
-              Do not have an account?{' '}
-              <Link href="/signup" className="text-amber-400 hover:text-amber-300 font-medium">
-                Sign Up
-              </Link>
-            </p>
-          </div>
         </form>
+
+        {/* Divider */}
+        <div className="my-6">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-zinc-700"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className=" px-4 text-zinc-500">OR</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Google Button */}
+        <button
+          onClick={handleGoogleSignIn}
+          disabled={googleLoading}
+          className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-100 text-black font-medium py-4 rounded-2xl transition-all duration-200 border border-zinc-700 disabled:opacity-70"
+        >
+          {googleLoading ? (
+            "Signing in with Google..."
+          ) : (
+            <>
+              <Image 
+                src="https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png" 
+                alt="Google" 
+                width={24} 
+                height={24}
+                className="rounded-sm"
+              />
+              Continue with Google
+            </>
+          )}
+        </button>
+
+        <div className="mt-8 text-center">
+          <p className="text-zinc-400">
+            Don't have an account?{' '}
+            <Link href="/signup" className="text-amber-400 hover:text-amber-300 font-medium">
+              Sign Up
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
