@@ -37,7 +37,7 @@ const NavBar = () => {
               All Animals
             </Link>
             <Link 
-              href="/contact" 
+              href="/signup" 
               className="bg-emerald-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-emerald-700 transition-all duration-200 shadow-sm hover:shadow"
             >
               Get Started
@@ -90,7 +90,7 @@ const NavBar = () => {
           </Link>
           <div className="pt-2 px-3">
             <Link
-              href="/contact"
+              href="/signup"
               onClick={closeMenu} // Added here
               className="block w-full text-center bg-emerald-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-emerald-700 transition-colors"
             >
