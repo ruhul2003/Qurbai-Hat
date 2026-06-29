@@ -50,7 +50,7 @@ export default function Signup() {
       <div className="max-w-md w-full">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold text-white">Create Account</h1>
-          <p className="text-zinc-400 mt-3">Join QurbaniHat and book with confidence</p>
+          <p className="text-zinc-400 mt-3">Join QurbaniHat and Buy Your Qurbani Animal</p>
         </div>
 
         {error && (
