@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
+import { FcGoogle } from 'react-icons/fc';
 
 export default function Signup() {
   const router = useRouter();
@@ -32,8 +33,6 @@ export default function Signup() {
         setError(authError.message || "Signup failed. Please try again.");
       } else {
         console.log("Signup successful:", data);
-        
-        // Force redirect to login after successful signup
         alert("Account created successfully! Please sign in.");
         router.push('/login');
       }
@@ -42,6 +41,18 @@ export default function Signup() {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    try {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/login",  
+      });
+    } catch (err) {
+      setError("Google sign up failed. Please try again.");
+      console.error(err);
     }
   };
 
@@ -117,16 +128,27 @@ export default function Signup() {
               {loading ? "Creating Account..." : "Create Account"}
             </button>
           </div>
-
-          <div className="mt-6 text-center">
-            <p className="text-zinc-400">
-              Already have an account?{' '}
-              <Link href="/login" className="text-amber-400 hover:text-amber-300 font-medium">
-                Sign In
-              </Link>
-            </p>
-          </div>
         </form>
+
+        {/* Google Signup Button */}
+        <div className="mt-6">
+  <button
+    onClick={handleGoogleSignUp}
+    className="w-full flex items-center justify-center gap-3 bg-white text-gray-900 hover:bg-gray-100 font-medium py-4 rounded-2xl border border-gray-300 transition-all"
+  >
+    <FcGoogle className="w-6 h-6" />   {/* Clean Google Icon */}
+    Continue with Google
+  </button>
+</div>
+
+        <div className="mt-6 text-center">
+          <p className="text-zinc-400">
+            Already have an account?{' '}
+            <Link href="/login" className="text-amber-400 hover:text-amber-300 font-medium">
+              Sign In
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

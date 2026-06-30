@@ -64,7 +64,6 @@ export default function AnimalsPage() {
 
   return (
     <div className="bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-950 text-zinc-50 min-h-screen pb-20">
-      {/* Compact Header */}
       <div className="border-b border-emerald-900/50 py-10 px-6">
         <div className="max-w-7xl mx-auto">
           <nav className="text-emerald-400/70 text-sm mb-3">
@@ -88,7 +87,6 @@ export default function AnimalsPage() {
         </div>
       </div>
 
-      {/* Filters */}
       <div className="max-w-7xl mx-auto px-6 -mt-6 relative z-10">
         <div className="bg-zinc-900/95 backdrop-blur-xl border border-zinc-700 rounded-3xl p-5 shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
@@ -138,7 +136,6 @@ export default function AnimalsPage() {
         </div>
       </div>
 
-      {/* Cards Grid */}
       <div className="max-w-7xl mx-auto px-6 mt-10">
         {filteredAnimals.length === 0 ? (
           <div className="text-center py-20 bg-zinc-900/50 rounded-3xl border border-dashed border-zinc-700">
@@ -180,7 +177,7 @@ export default function AnimalsPage() {
                   </h3>
 
                   <p className="text-sm text-zinc-400 mt-1">
-                    📍 {animal.location} • {animal.age} years
+                     {animal.location} • {animal.age} years
                   </p>
 
                   <div className="mt-auto pt-8 border-t border-zinc-800 grid grid-cols-2 gap-4 text-center">
@@ -200,7 +197,7 @@ export default function AnimalsPage() {
                     href={`/animals/${animal.id}`}
                     className="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-4 rounded-2xl transition-all active:scale-[0.985]"
                   >
-                    View Details →
+                    View Details
                   </Link>
                 </div>
               </div>

@@ -40,7 +40,6 @@ export default function Featured() {
   return (
     <section className="w-full mt-12 bg-[#0a1f1a] py-20  ">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
             <span className="text-sm font-bold text-emerald-400 uppercase tracking-widest block mb-2">
@@ -55,14 +54,12 @@ export default function Featured() {
           </div>
         </div>
 
-        {/* Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {featuredAnimals.map((animal) => (
             <div
               key={animal.id}
               className="bg-zinc-900/80 border border-zinc-700/80 backdrop-blur-sm rounded-3xl overflow-hidden shadow-2xl hover:shadow-emerald-900/50 hover:-translate-y-1 transition-all duration-300 group flex flex-col h-full"
             >
-              {/* Image */}
               <div className="relative h-60 overflow-hidden">
                 <Image
                   src={animal.image}
@@ -80,7 +77,6 @@ export default function Featured() {
                 </span>
               </div>
 
-              {/* Content */}
               <div className="p-6 flex-1 flex flex-col">
                 <div className="flex items-center gap-2 text-emerald-400 mb-3">
                   <MdOutlinePets className="text-lg" />
@@ -92,7 +88,7 @@ export default function Featured() {
                 </h3>
 
                 <p className="text-zinc-400 text-sm mt-1 mb-6">
-                  📍 {animal.location} • {animal.age} years
+                   {animal.location} • {animal.age} years
                 </p>
 
                 <div className="mt-auto pt-6 border-t border-zinc-700 flex items-end justify-between">
@@ -113,7 +109,6 @@ export default function Featured() {
           ))}
         </div>
 
-        {/* Explore Button - Moved to Bottom */}
         <div className="flex justify-center mt-12">
           <Link
             href="/animals"

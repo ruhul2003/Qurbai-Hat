@@ -7,10 +7,8 @@ function Footer() {
     <footer className="bg-[#101727] text-white border-t border-zinc-800">
       <div className="w-full md:w-4/5 mx-auto px-6 py-16">
 
-        {/* TOP GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12 lg:gap-8 mb-12">
 
-          {/* BRAND */}
           <div className="sm:col-span-2 md:col-span-3 lg:col-span-2">
             <Link href="/" className="inline-block">
               <h1 className="text-3xl md:text-4xl font-black tracking-tight text-emerald-500">
@@ -22,7 +20,6 @@ function Footer() {
               Your trusted online marketplace for healthy, certified, and hassle-free Qurbani livestock. Bringing the traditional Haat directly to your digital screen with seamless doorstep delivery.
             </p>
 
-            {/* SOCIAL LINKS */}
             <div className="mt-6">
               <h2 className="text-[16px] font-semibold mb-4 text-zinc-200">
                 Connect With Us
@@ -67,7 +64,6 @@ function Footer() {
             </div>
           </div>
 
-          {/* SHOP CATTLE */}
           <div>
             <h3 className="text-[18px] font-semibold text-zinc-100">
               Buy Livestock
@@ -88,7 +84,6 @@ function Footer() {
             </ul>
           </div>
 
-          {/* THE HAAT INFO */}
           <div>
             <h3 className="text-[18px] font-semibold text-zinc-100">
               Our Services
@@ -109,7 +104,6 @@ function Footer() {
             </ul>
           </div>
 
-          {/* KNOWLEDGE HUB */}
           <div>
             <h3 className="text-[18px] font-semibold text-zinc-100">
               Resources
@@ -130,14 +124,12 @@ function Footer() {
             </ul>
           </div>
 
-          {/* CONTACT */}
           <div>
             <h3 className="text-[18px] font-semibold text-zinc-100">
               Contact Us
             </h3>
             <div className="mt-4 flex flex-col gap-4 text-zinc-400 text-sm">
               
-              {/* EMAIL */}
               <div className="flex items-start gap-3">
                 <Envelope
                   size={20}
@@ -151,7 +143,6 @@ function Footer() {
                 </div>
               </div>
 
-              {/* PHONE */}
               <div className="flex items-start gap-3">
                 <Handset
                   size={20}
@@ -165,7 +156,6 @@ function Footer() {
                 </div>
               </div>
 
-              {/* LOCATION */}
               <div className="flex items-start gap-3">
                 <LocationArrowFill
                   size={20}
@@ -181,10 +171,8 @@ function Footer() {
           </div>
         </div>
 
-        {/* DIVIDER */}
         <hr className="border-zinc-800" />
 
-        {/* BOTTOM SECTION */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 mt-8">
           <div className="text-center md:text-left text-zinc-500 text-sm">
             © {new Date().getFullYear()} QurbaniHat Inc. All rights reserved.

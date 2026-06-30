@@ -1,11 +1,9 @@
-// middleware.js
 import { betterFetch } from "@better-fetch/fetch";
 import { NextResponse } from "next/server";
 
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
 
-  // Protect dynamic animal detail pages
   if (pathname.match(/^\/animals\/[^/]+$/)) {
     try {
       const { data: session } = await betterFetch("/api/auth/get-session", {

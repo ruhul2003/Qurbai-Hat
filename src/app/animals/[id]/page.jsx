@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { MdOutlinePets, MdArrowBack, MdScale, MdAttachMoney, MdLocationOn, MdCalendarToday, MdVerifiedUser } from 'react-icons/md';
+import Image from 'next/image';
 
 export default function AnimalDetailPage() {
   const params = useParams();
@@ -16,7 +17,6 @@ export default function AnimalDetailPage() {
         return res.json();
       })
       .then((data) => {
-        // Find the specific item matching the route ID parameter
         const targetId = parseInt(params.id, 10);
         const match = data.find((item) => item.id === targetId);
         setAnimal(match || null);
@@ -54,23 +54,22 @@ export default function AnimalDetailPage() {
   return (
     <div className="bg-zinc-950 text-zinc-50 min-h-screen font-sans pb-24">
       
-      {/* TOP NAVIGATION BACK BAR */}
       <div className="max-w-6xl mx-auto px-6 pt-10">
         <Link href="/animals" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-emerald-400 transition-colors group">
           <MdArrowBack className="text-lg group-hover:-translate-x-1 transition-transform" /> Back to listings
         </Link>
       </div>
 
-      {/* CORE DISPLAY CONTAINER */}
       <div className="max-w-6xl mx-auto px-6 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         
-        {/* LEFT COLUMN: VISUAL MEDIA HUB */}
         <div className="lg:col-span-7 space-y-4">
           <div className="rounded-3xl overflow-hidden border border-zinc-800/80 aspect-[4/3] bg-zinc-900 shadow-xl relative">
-            <img 
+            <Image 
               src={animal.image} 
               alt={animal.name} 
               className="w-full h-full object-cover"
+              width={500}
+              height={400}
             />
             <span className="absolute top-4 left-4 bg-zinc-950/90 backdrop-blur-md text-amber-400 text-xs font-black px-3.5 py-1.5 rounded-lg border border-zinc-800">
               Verified Breed: {animal.breed}
@@ -83,7 +82,6 @@ export default function AnimalDetailPage() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: CORE SUMMARY & CALL TO ACTION */}
         <div className="lg:col-span-5 space-y-6">
           <div>
             <div className="flex items-center gap-1.5 text-zinc-500 text-[11px] font-bold uppercase tracking-wider mb-2">
@@ -95,7 +93,6 @@ export default function AnimalDetailPage() {
             </h1>
           </div>
 
-          {/* VITAL PARAMETERS STAT MATRIX */}
           <div className="grid grid-cols-3 gap-3 bg-zinc-900/50 border border-zinc-800/80 rounded-2xl p-4 text-center">
             <div className="space-y-0.5">
               <span className="text-[10px] uppercase font-bold text-zinc-500 flex items-center justify-center gap-0.5"><MdLocationOn /> Origin</span>
@@ -111,7 +108,6 @@ export default function AnimalDetailPage() {
             </div>
           </div>
 
-          {/* PRICE HOVER BOX */}
           <div className="bg-gradient-to-r from-emerald-950/40 to-zinc-900/60 border border-emerald-500/20 rounded-2xl p-5 flex items-center justify-between shadow-sm">
             <div>
               <span className="text-zinc-500 text-[10px] uppercase font-bold block tracking-wider">Total Final Haat Price</span>
@@ -122,7 +118,6 @@ export default function AnimalDetailPage() {
             </span>
           </div>
 
-          {/* EXTENDED SPECIFICATION DESCRIPTION */}
           <div className="space-y-2">
             <h3 className="text-xs uppercase font-extrabold tracking-widest text-zinc-400">Overview & Background</h3>
             <p className="text-sm text-zinc-400 leading-relaxed bg-zinc-900/30 border border-zinc-800/60 p-4 rounded-xl">
@@ -130,7 +125,6 @@ export default function AnimalDetailPage() {
             </p>
           </div>
 
-          {/* TRANSACTION PROCESSING FORM ROW */}
           <div className="pt-4">
             <button 
               onClick={() => alert(`Redirecting secure tracking configuration code logic loops for ${animal.name}`)}

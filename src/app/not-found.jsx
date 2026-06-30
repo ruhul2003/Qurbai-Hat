@@ -4,7 +4,6 @@ export default function NotFound() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-950 text-white flex items-center justify-center px-6">
       <div className="text-center max-w-lg">
-        {/* Large 404 */}
         <div className="text-[180px] font-black text-white tracking-tighter text-emerald-900/50 leading-none mb-6">
           404
         </div>
