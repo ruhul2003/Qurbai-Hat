@@ -16,7 +16,12 @@ export const auth = betterAuth({
       redirectURI: `${process.env.BETTER_AUTH_URL}/api/auth/callback/google`,
     },
   },
-  database: mongodbAdapter(db, {
-    client,
-  }),
+  database: mongodbAdapter(db, { client }),
+
+  baseURL: process.env.BETTER_AUTH_URL,
+  trustedOrigins: [
+    "http://localhost:3000",
+    "https://qurbai-hat.vercel.app",
+    "*.vercel.app",         
+  ],
 });
