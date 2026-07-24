@@ -1,8 +1,40 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { ThunderboltFill , CircleCheckFill} from '@gravity-ui/icons';
-import { motion } from 'framer-motion';
+import { ThunderboltFill, CircleCheckFill } from '@gravity-ui/icons';
+import { FiChevronLeft, FiChevronRight, FiPause, FiPlay } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const slides = [
+  {
+    id: 1,
+    url: 'https://images.unsplash.com/photo-1570042707229-4d6935274533?q=80&w=2000&auto=format&fit=crop',
+    title: 'Green Organic Pastures',
+    location: 'Sirajganj & Bogura Farms',
+    tag: 'Verified Farm View #01'
+  },
+  {
+    id: 2,
+    url: 'https://images.unsplash.com/photo-1546445317-29f4545f9d52?q=80&w=2000&auto=format&fit=crop',
+    title: 'Shahiwal & Mirkadim Cattle',
+    location: 'Munshiganj Premium Reserve',
+    tag: 'Verified Farm View #02'
+  },
+  {
+    id: 3,
+    url: 'https://images.unsplash.com/photo-1527153857715-3908f2bae5e8?q=80&w=2000&auto=format&fit=crop',
+    title: 'Healthy Goats & Khashi',
+    location: 'Kushtia & Rajshahi Farms',
+    tag: 'Verified Farm View #03'
+  },
+  {
+    id: 4,
+    url: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?q=80&w=2000&auto=format&fit=crop',
+    title: 'Nationwide Direct Farm Delivery',
+    location: '100% Shariah Compliant',
+    tag: 'Verified Logistics'
+  }
+];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -42,15 +74,76 @@ const badgeVariants = {
 };
 
 const Banner = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  }, []);
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5500);
+    return () => clearInterval(interval);
+  }, [isPlaying, nextSlide]);
+
   return (
-    <section className="relative w-full min-h-screen flex items-center bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-950 text-white py-24 px-6 md:px-12 overflow-hidden">
-      {/* Background Animated Dots grid */}
-      <motion.div 
-        animate={{ opacity: [0.03, 0.07, 0.03] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none"
-      />
-      
+    <section 
+      className="relative w-full min-h-screen flex items-center text-white py-24 px-6 md:px-12 overflow-hidden bg-zinc-950"
+      onMouseEnter={() => setIsPlaying(false)}
+      onMouseLeave={() => setIsPlaying(true)}
+    >
+      {/* Background Image Slider with Smooth Fade and Zoom */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0, scale: 1.08 }}
+            animate={{ opacity: 1, scale: 1.02 }}
+            exit={{ opacity: 0, scale: 1.0 }}
+            transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1] }}
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url('${slides[currentSlide].url}')` }}
+          />
+        </AnimatePresence>
+
+        {/* Optimized Multi-layered Gradient Overlays for High Contrast & Clear Background Visibility */}
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/90 via-emerald-950/75 to-zinc-950/85" />
+        <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-emerald-950/70" />
+
+        {/* Background Animated Dots grid */}
+        <motion.div 
+          animate={{ opacity: [0.03, 0.08, 0.03] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px]"
+        />
+      </div>
+
+      {/* Vertical Middle Left Floating Nav Arrow */}
+      <button 
+        onClick={prevSlide}
+        aria-label="Previous Slide"
+        className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-30 p-3.5 rounded-full bg-zinc-900/80 hover:bg-amber-500 text-zinc-300 hover:text-zinc-950 border border-zinc-700/60 hover:border-amber-400 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer hidden sm:flex items-center justify-center group"
+      >
+        <FiChevronLeft size={24} className="group-hover:-translate-x-0.5 transition-transform" />
+      </button>
+
+      {/* Vertical Middle Right Floating Nav Arrow */}
+      <button 
+        onClick={nextSlide}
+        aria-label="Next Slide"
+        className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-30 p-3.5 rounded-full bg-zinc-900/80 hover:bg-amber-500 text-zinc-300 hover:text-zinc-950 border border-zinc-700/60 hover:border-amber-400 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer hidden sm:flex items-center justify-center group"
+      >
+        <FiChevronRight size={24} className="group-hover:translate-x-0.5 transition-transform" />
+      </button>
+
+      {/* Content Container */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 w-full">
         
         {/* Left Column: Text & CTAs */}
@@ -60,13 +153,29 @@ const Banner = () => {
           animate="visible"
           className="space-y-8"
         >
-          <motion.div 
-            variants={badgeVariants} 
-            className="inline-flex items-center gap-2 bg-emerald-900/60 border border-emerald-700/80 text-emerald-300 px-5 py-2 rounded-full text-sm font-medium shadow-lg shadow-emerald-950/40"
-          >
-            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-            Official Online Haat 2026
-          </motion.div>
+          <div className="flex flex-wrap items-center gap-3">
+            <motion.div 
+              variants={badgeVariants} 
+              className="inline-flex items-center gap-2 bg-emerald-900/70 border border-emerald-700/80 text-emerald-300 px-5 py-2 rounded-full text-sm font-medium shadow-lg shadow-emerald-950/40 backdrop-blur-md"
+            >
+              <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+              Official Online Haat 2026
+            </motion.div>
+
+            {/* Current Active Farm Tag */}
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={slides[currentSlide].id}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 10 }}
+                transition={{ duration: 0.3 }}
+                className="hidden sm:inline-flex items-center gap-1.5 bg-zinc-900/60 border border-zinc-700/50 text-amber-300 text-xs px-3.5 py-1.5 rounded-full font-medium backdrop-blur-md"
+              >
+                📍 {slides[currentSlide].location}
+              </motion.span>
+            </AnimatePresence>
+          </div>
 
           <motion.h1 
             variants={itemVariants} 
@@ -143,83 +252,132 @@ const Banner = () => {
           </motion.div>
         </motion.div>
 
-        {/* Right Column: Live Update Card */}
+        {/* Right Column: Featured Interactive Image Slider Card (Visible right in the middle of screen) */}
         <motion.div 
           initial={{ opacity: 0, x: 40, scale: 0.96 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           transition={{ type: "spring", stiffness: 80, damping: 16, delay: 0.35 }}
-          className="hidden lg:flex justify-center relative w-full"
+          className="flex flex-col justify-center relative w-full"
         >
-          {/* Breathing soft backdrop glow */}
+          {/* Soft backdrop glow */}
           <motion.div 
             animate={{ 
               scale: [1, 1.06, 1],
-              opacity: [0.7, 0.9, 0.7],
+              opacity: [0.6, 0.85, 0.6],
             }}
-            transition={{ 
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute -inset-10 bg-gradient-to-tr from-amber-400/10 via-emerald-400/10 to-transparent rounded-[4rem] blur-3xl pointer-events-none"
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -inset-6 bg-gradient-to-tr from-amber-500/20 via-emerald-500/20 to-transparent rounded-[3rem] blur-2xl pointer-events-none"
           />
-          
-          <div className="relative w-full max-w-md bg-zinc-900/70 border border-zinc-700/60 backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-amber-400 font-semibold flex items-center gap-2 text-lg">
-                <span className="text-xl"><ThunderboltFill /></span>
-                Live Market Update
-              </h3>
-              <span className="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-semibold tracking-wider">
-                UPDATED JUST NOW
-              </span>
-            </div>
 
-            <div className="space-y-6">
-              <div>
-                <p className="text-zinc-400 text-sm mb-3">
-                  High demand today:
-                </p>
-                <motion.div 
-                  whileHover={{ scale: 1.02, backgroundColor: "rgba(63, 63, 70, 0.85)" }}
-                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
-                  className="flex justify-between items-center bg-zinc-800/80 border border-zinc-700/30 rounded-2xl p-4 cursor-pointer shadow-md"
-                >
-                  <div>
-                    <p className="font-semibold text-white">Pure Shahiwal Bulls</p>
-                    <p className="text-sm text-emerald-400 font-medium">42 animals left</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-amber-400 font-bold bg-amber-500/10 px-3 py-1 rounded-lg">Selling Fast</p>
-                  </div>
-                </motion.div>
+          {/* Glassmorphic Slide Card */}
+          <div className="relative w-full max-w-lg mx-auto bg-zinc-900/80 border border-zinc-700/70 backdrop-blur-2xl rounded-3xl p-5 md:p-6 shadow-2xl overflow-hidden group">
+            
+            {/* Featured Image Canvas with AnimatePresence */}
+            <div className="relative h-64 sm:h-72 w-full rounded-2xl overflow-hidden shadow-inner bg-zinc-950">
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={slides[currentSlide].id}
+                  src={slides[currentSlide].url}
+                  alt={slides[currentSlide].title}
+                  initial={{ opacity: 0, scale: 1.08 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
+                  transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                  className="w-full h-full object-cover"
+                />
+              </AnimatePresence>
+
+              {/* Image Overlay Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/25 to-transparent" />
+
+              {/* Badges on Top of Image */}
+              <div className="absolute top-3 left-3 flex items-center gap-2">
+                <span className="bg-emerald-600/90 backdrop-blur-md text-white text-xs font-semibold px-3 py-1 rounded-full border border-emerald-400/30 shadow-md">
+                  {slides[currentSlide].tag}
+                </span>
               </div>
 
-              <div>
-                <div className="flex justify-between text-sm mb-2.5">
-                  <span className="text-zinc-400">Delivery Slots for Eid</span>
-                  <span className="font-semibold text-emerald-400">81% Booked</span>
-                </div>
-                <div className="h-2.5 bg-zinc-800 rounded-full overflow-hidden border border-zinc-700/20">
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: "81%" }}
-                    transition={{ duration: 1.6, ease: [0.25, 1, 0.5, 1], delay: 0.7 }}
-                    className="bg-gradient-to-r from-emerald-500 via-emerald-400 to-amber-400 h-full rounded-full"
-                  />
-                </div>
-                <p className="text-xs text-zinc-500 mt-2">
-                  Limited slots remaining for June 30 - July 10
-                </p>
+              <div className="absolute top-3 right-3">
+                <span className="bg-zinc-900/80 backdrop-blur-md text-amber-400 text-xs font-bold px-2.5 py-1 rounded-full border border-zinc-700/60 shadow-md">
+                  0{currentSlide + 1} / 0{slides.length}
+                </span>
+              </div>
+
+              {/* Image Title Overlay */}
+              <div className="absolute bottom-4 left-4 right-4">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={slides[currentSlide].id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.35 }}
+                  >
+                    <h3 className="text-xl font-bold text-white tracking-tight drop-shadow-md">
+                      {slides[currentSlide].title}
+                    </h3>
+                    <p className="text-xs text-amber-300 font-medium flex items-center gap-1.5 mt-1">
+                      <span>📍</span> {slides[currentSlide].location}
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-zinc-800 text-xs text-zinc-400 flex items-center gap-2.5">
-              <span><CircleCheckFill className="text-emerald-400 text-base" /></span>
-              All animals are pre-screened by licensed veterinarians
+            {/* Card Footer: Live Market Quick Stats */}
+            <div className="mt-5 pt-4 border-t border-zinc-800/80 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs text-zinc-300">
+                <span className="text-amber-400 text-base"><ThunderboltFill /></span>
+                <span className="font-semibold text-white">Live Market:</span>
+                <span className="text-emerald-400 font-medium">42 Shahiwal Left</span>
+              </div>
+
+              <div className="flex items-center gap-2 text-xs text-zinc-400">
+                <CircleCheckFill className="text-emerald-400 text-sm" />
+                Vet Certified
+              </div>
             </div>
           </div>
         </motion.div>
+      </div>
+
+      {/* Bottom Centered Slider Controls & Progress Indicators */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center justify-center pointer-events-auto">
+        <div className="flex items-center gap-3 bg-zinc-900/85 border border-zinc-700/70 px-5 py-2.5 rounded-full shadow-2xl backdrop-blur-xl">
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            aria-label={isPlaying ? "Pause Slideshow" : "Play Slideshow"}
+            className="p-1.5 rounded-full text-zinc-400 hover:text-amber-400 transition-colors cursor-pointer"
+          >
+            {isPlaying ? <FiPause size={16} /> : <FiPlay size={16} />}
+          </button>
+
+          <span className="h-4 w-px bg-zinc-700/80" />
+
+          {/* Dots */}
+          <div className="flex items-center gap-2 mx-1">
+            {slides.map((slide, idx) => (
+              <button
+                key={slide.id}
+                onClick={() => setCurrentSlide(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                  idx === currentSlide 
+                    ? 'w-8 bg-amber-400 shadow-md shadow-amber-400/30' 
+                    : 'w-2 bg-zinc-600 hover:bg-zinc-400'
+                }`}
+              />
+            ))}
+          </div>
+
+          <span className="h-4 w-px bg-zinc-700/80" />
+
+          <div className="text-xs text-zinc-300 font-medium px-1">
+            <span className="text-amber-400 font-bold">0{currentSlide + 1}</span>
+            <span className="text-zinc-500">/</span>
+            <span className="text-zinc-400">0{slides.length}</span>
+          </div>
+        </div>
       </div>
     </section>
   );
