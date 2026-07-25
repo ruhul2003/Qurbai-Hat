@@ -35,17 +35,17 @@ export default function TopBreeds() {
     <section className="max-w-7xl mx-auto px-6 py-20">
       <div className="flex flex-col md:flex-row justify-between items-end mb-12">
         <div>
-          <span className="text-emerald-400 uppercase tracking-widest font-bold">DISCOVER</span>
-          <h2 className="text-4xl font-bold tracking-tight mt-2">Top Breeds This Season</h2>
+          <span className="text-emerald-600 dark:text-emerald-400 uppercase tracking-widest font-bold">DISCOVER</span>
+          <h2 className="text-4xl font-bold tracking-tight mt-2 text-zinc-900 dark:text-white">Top Breeds This Season</h2>
         </div>
-        <Link href="/animals" className="text-amber-400 hover:text-amber-300 font-medium flex items-center gap-2 mt-4 md:mt-0">
+        <Link href="/animals" className="text-amber-600 dark:text-amber-400 hover:text-amber-500 dark:hover:text-amber-300 font-medium flex items-center gap-2 mt-4 md:mt-0">
           Browse All Breeds →
         </Link>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {topBreeds.map((breed, idx) => (
-          <div key={idx} className="group relative rounded-3xl overflow-hidden border border-zinc-700 hover:border-emerald-500 transition-all">
+          <div key={idx} className="group relative rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-700 hover:border-emerald-500 transition-all shadow-md dark:shadow-none">
             <div className="h-80 relative">
               <Image 
                 src={breed.image} 
@@ -58,7 +58,7 @@ export default function TopBreeds() {
             </div>
             
             <div className="absolute bottom-6 left-6 right-6">
-              <span className="inline-block bg-emerald-500 text-zinc-950 text-xs font-bold px-3 py-1 rounded-full mb-3">
+              <span className="inline-block bg-emerald-500 text-zinc-950 text-xs font-bold px-3 py-1 rounded-full mb-3 shadow">
                 {breed.popular}
               </span>
               <h3 className="text-2xl font-bold text-white">{breed.name}</h3>
